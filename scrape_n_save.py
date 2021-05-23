@@ -2,11 +2,13 @@ import pandas as pd
 import numpy as np
 from imgscrape import imgscrape
 
+# Create empty dataframe and give path to chromedriver
 df3 = pd.DataFrame()
 any_var = "/Users/arthur/Desktop/chromedriver"
 
-# Import data
+# Import raw data
 df = pd.read_csv('data/data_prog.csv')
+
 # Cleaning - Deleting info we don't need
 df = df.drop("Brand",axis=1)
 df = df.drop("Available From",axis=1)
@@ -17,12 +19,12 @@ df = df.drop("Oversize",axis=1)
 df = df.drop("ASIN",axis=1)
 df = df.dropna()
 
-#Scrap function
+# Scrap function
 def scrape_img(lst_var):
     var = imgscrape(*lst_var, path=any_var)
     return(var)
 
-# Iterrating over dataframe 10 rows at a time and save image into df
+# Iterating over dataframe 10 rows at a time and save image into df
 def iter_image(df, df3) :
     x = 10
     while x < df.shape[0] :
@@ -37,18 +39,20 @@ def iter_image(df, df3) :
         x+=10
         df3 = pd.DataFrame()
 
+# Call function
 iter_image(df, df3)
 
+# Create variables
 x=10
 liste = []
 
-#Create a list with all the csv
+# Create a list with all the csv
 while x < 890 :
     df = pd.read_csv(f'data/data_prog_{x}.csv')
     liste.append(df)
     x+=10
 
-#Concat the csv and do some cleaning
+# Concat the csv and do some additional cleaning -> save the end result
 result = pd.concat(liste)
 result.to_csv(f'data/data_prog_final.csv')
 df = pd.read_csv(f'data/data_prog_final.csv')
