@@ -79,11 +79,12 @@ count_object = Model(var[0], var2[0], var3[0])
 
 # Object to stock dataframe
 class Model_df(object):
-    def __init__(self, data_f):
+    def __init__(self, data_f, data_f2):
         self.data_f = data_f
+        self.data_f2 = data_f2
 
 # Create object with current df3
-my_df = Model_df(df3)
+my_df = Model_df(df3, df2)
 
 # Function to compute Naive Bayes Classification algorithm
 def ml_score(df3, df2) :
@@ -134,6 +135,7 @@ def update_df3(df3, df2, var, var2, var3) :
     df3['Score'] = df3['Score'].fillna(0)
     # Update object with new df3
     my_df.data_f = df3
+    my_df.data_f2 = df2
 
 # Tkinter
 # Update window with new infos
@@ -160,8 +162,8 @@ def button_yes():
     # Condition for 10 products
     if (count_object.currentObject + 1) % 10 == 0 :
         # Compute classification score and update dataframe
-        ml_score(my_df.data_f,df2)
-        update_df3(my_df.data_f,df2,var,var2,var3)
+        ml_score(my_df.data_f,my_df.data_f2)
+        update_df3(my_df.data_f,my_df.data_f2,var,var2,var3)
 
     print(my_df.data_f)
     # Update tkinter window
@@ -171,8 +173,8 @@ def button_yes():
 def button_no():
     # Condition for 10 products
     if (count_object.currentObject + 1) % 10 == 0:
-        ml_score(my_df.data_f, df2)
-        update_df3(my_df.data_f, df2, var, var2, var3)
+        ml_score(my_df.data_f, my_df.data_f2)
+        update_df3(my_df.data_f, my_df.data_f2, var, var2, var3)
 
     print(my_df.data_f)
     # Update tkinter window
@@ -187,6 +189,11 @@ def button_buy():
     driver = webdriver.Chrome(executable_path=any_var)
     driver.get(my_df.data_f.iloc[count_object.currentObject, -4])
 
+
+print(df2)
+print(df3)
+print(df2.size)
+print(df3.size)
 
 # 1st initialization tkinter window
 window = tkinter.Tk()
